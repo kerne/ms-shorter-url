@@ -1,6 +1,6 @@
 package com.meli.shorter.infra.primary.controller;
 
-import com.meli.shorter.infra.secondary.cache.RedisCache;
+import com.meli.shorter.infra.secondary.cache.RedisCacheRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Controller;
@@ -16,11 +16,11 @@ import static org.springframework.http.HttpStatus.TEMPORARY_REDIRECT;
 @RequiredArgsConstructor
 public class RedirectController {
 
-    private final RedisCache redisCache;
+    private final RedisCacheRepository redisCacheRepository;
 
     @GetMapping(value = "/{shorter}")
     public Mono<Void> redirect(@PathVariable String shorter, ServerHttpResponse response) {
-        return redisCache.findByShorter(shorter)
+        return redisCacheRepository.findByShorterURL(shorter)
                 .flatMap(e ->
                 {
                     response.setStatusCode(TEMPORARY_REDIRECT);

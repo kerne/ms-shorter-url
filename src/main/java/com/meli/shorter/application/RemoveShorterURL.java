@@ -1,21 +1,21 @@
 package com.meli.shorter.application;
 
-import com.meli.shorter.domain.services.ShorterURLPort;
-import com.meli.shorter.infra.secondary.cache.RedisCache;
+import com.meli.shorter.domain.services.ShorterURLCachePort;
+import com.meli.shorter.domain.services.ShorterURLPersistencePort;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public final class RemoveShorterURL {
 
-    private final ShorterURLPort shorterURLPort;
-    private final RedisCache redisCache;
+    private final ShorterURLPersistencePort shorterURLPersistencePort;
+    private final ShorterURLCachePort shorterURLCachePort;
     private final FindShorterURL findShorterURL;
 
-    public Mono<Void> delete(String shorterUrl) {
-        return findShorterURL.findByShorter(shorterUrl)
-                .flatMap(e -> redisCache.deleteById(e.getUrlFull()))
-                .then(shorterURLPort.remove(shorterUrl));
+    public Mono<Void> remove(String shorterUrl) {
+        return findShorterURL.findByShorterURL(shorterUrl)
+                .flatMap(e -> shorterURLCachePort.deleteById(e.getUrlFull()))
+                .then(shorterURLPersistencePort.remove(shorterUrl));
     }
 
 }

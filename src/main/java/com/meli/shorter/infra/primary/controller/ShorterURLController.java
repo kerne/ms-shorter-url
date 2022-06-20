@@ -24,7 +24,7 @@ public final class ShorterURLController {
 
     @PostMapping("/")
     public Mono<ResponseEntity<DataURL>> create(@Valid @RequestBody RequestURL requestURL) {
-        return findShorterURL.findById(requestURL.getUrl())
+        return findShorterURL.findByURL(requestURL.getUrl())
                 .switchIfEmpty(createShorterURL.create(requestURL.getUrl()))
                 .flatMap(dataURL -> Mono.just(ResponseEntity.status(HttpStatus.CREATED).body(dataURL)))
                 .onErrorReturn(ResponseEntity.noContent().build());
@@ -32,12 +32,12 @@ public final class ShorterURLController {
 
     @GetMapping("/")
     public Mono<DataURL> find(@Valid @RequestParam("uri") String uri) {
-        return findShorterURL.findByShorter(uri);
+        return findShorterURL.findByShorterURL(uri);
     }
 
     @DeleteMapping("/")
     public Mono<ResponseEntity<Void>> delete(@Valid @RequestParam("uri") String uri) {
-        return removeShorterURL.delete(uri).flatMap(e ->Mono.just(ResponseEntity.status(HttpStatus.ACCEPTED).build()));
+        return removeShorterURL.remove(uri).flatMap(e ->Mono.just(ResponseEntity.status(HttpStatus.ACCEPTED).build()));
     }
 
 }
