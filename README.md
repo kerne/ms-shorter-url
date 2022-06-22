@@ -40,15 +40,14 @@ Aplicación que permite transformar una url larga en una url corta. Se utiliza p
 | `uri`      | `string` | **Required**. Id of url to delete |
 
 
-## Run Locally
-
-#### Pre-requisito
+## Requisito
 
 Iniciar Redis
 ```bash
 docker run -p 6379:6379 -d redis
 ```
 
+## Run Locally
 Clonar repo
 
 ```bash
