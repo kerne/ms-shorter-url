@@ -24,8 +24,7 @@ public class ShorterURLPersistence implements ShorterURLPersistencePort {
 
     @Override
     public Mono<DataURL> find(String shorter) {
-        return shorterURLRepository.findDataURLByUrlShorter(shorter)
-                .switchIfEmpty(Mono.error(new Exception("Not Found Resource")));
+        return shorterURLRepository.findDataURLByUrlShorter(shorter);
     }
 
     @Override

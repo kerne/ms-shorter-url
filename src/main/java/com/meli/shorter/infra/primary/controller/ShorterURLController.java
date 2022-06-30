@@ -27,7 +27,7 @@ public final class ShorterURLController {
         return findShorterURL.findByURL(requestURL.getUrl())
                 .switchIfEmpty(createShorterURL.create(requestURL.getUrl()))
                 .flatMap(dataURL -> Mono.just(ResponseEntity.status(HttpStatus.CREATED).body(dataURL)))
-                .onErrorReturn(ResponseEntity.noContent().build());
+                .onErrorReturn(ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
     @GetMapping("/")

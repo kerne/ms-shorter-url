@@ -1,5 +1,6 @@
 package com.meli.shorter.infra.secondary.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Data
 @ToString
 @Table("shorter_url")
+@JsonIgnoreProperties(value = { "new" })
 public class DataURL  implements Persistable<String> {
 
     @Id

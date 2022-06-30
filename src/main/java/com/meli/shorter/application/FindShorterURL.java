@@ -13,8 +13,7 @@ public class FindShorterURL {
     private final ShorterURLCachePort shorterURLCachePort;
 
     public Mono<DataURL> findByShorterURL(String uri) {
-        return shorterURLCachePort.findByShorterURL(uri)
-                .switchIfEmpty(shorterURLPersistencePort.find(uri));
+        return shorterURLCachePort.findByShorterURL(uri);
     }
 
     public Mono<DataURL> findByURL(String uri) {
